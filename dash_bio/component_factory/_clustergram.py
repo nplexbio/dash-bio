@@ -50,6 +50,9 @@ def Clustergram(
     plot_bg_color="rgba(0,0,0,0)",
     height=500,
     width=500,
+    zmin=None,
+    zmax=None,
+    zmid=None,
 ):
     """Return a Dash Bio Clustergram object.
 
@@ -252,6 +255,9 @@ class _Clustergram:
         plot_bg_color="rgba(0,0,0,0)",
         height=500,
         width=500,
+        zmin=None,
+        zmid=None,
+        zmax=None,
     ):
         """Construct a Dash Bio Clustergram object.
 
@@ -304,6 +310,18 @@ class _Clustergram:
             ]
         else:
             self._color_map = color_map
+        if zmax:
+            self._zmax = zmax
+        else: 
+            self._zmax = np.max(data)
+        if zmid:
+            self._zmid = zmid
+        else: 
+            self._zmid = np.mean(data)
+        if zmin:
+            self._zmin = zmin
+        else: 
+            self._zmin = np.min(data)
         self._color_list = color_list
         self._display_range = display_range
         self._center_values = center_values
@@ -643,6 +661,9 @@ class _Clustergram:
                     "yanchor": "top",
                     "yref": "paper",
                 },
+                zmin=self._zmin,
+                zmax=self._zmax,
+                zmid=self._zmid
             )
 
         # Chnaging this to see
